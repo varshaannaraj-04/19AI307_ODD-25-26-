@@ -1,28 +1,31 @@
-# Ex.No:4(C)  COMPOSITION IN JAVA
+# Ex.No:4(D) DESIGN PATTERN -- ABSTRACT FACTORY
 
 ## QUESTION:
-Create animals from two regions: "Africa" and "Asia". Use Abstract Factory to create families of animals (Herbivore, Carnivore). Print the interaction result.
+You are asked to simulate a simple Shape Drawing Tool using the Factory Design Pattern in Java.
+
+You will implement a Shape interface with concrete classes for different shapes (Circle, Square, Rectangle). Using a ShapeFactory, your program will take shape names from user input and draw them accordingly. If the shape is unknown, print an error message.
 
 
 
 ## AIM:
-To write a Java program demonstrating Composition and Abstract Factory Pattern by creating animal families of different regions and displaying interactions between herbivores and carnivores.
+To write a Java program that implements the Factory Design Pattern to create and draw shapes dynamically based on user input.
 
 ## ALGORITHM :
 1.	Start the program.
 2.	Import the necessary package 'java.util'
-3.	Create interfaces Herbivore and Carnivore.
-4. Create concrete animal classes (e.g., Wildebeest, Lion, Deer, Tiger) implementing those interfaces.
-5. Create an abstract factory class for producing families of animals.
-6. Implement region-based factories (AfricaFactory, AsiaFactory).
-7. In the main program, instantiate factories and show interactions.
-8. Print the result.
+3.	Create a Shape interface containing a draw() method.
+4. Create concrete classes Circle, Square, and Rectangle implementing Shape.
+5. Create a ShapeFactory class with a method getShape(String shapeType).
+6. In the main() method, accept user input for shape type.
+7. Call factory method to get the appropriate object.
+8. Draw the shape or print error if unknown.
 9. Stop the program.
+
 
 ## PROGRAM:
  ```
 /*
-Program to implement a Composition Concepts in Java
+Program to implement a Abstract Factory Pattern using Java
 Developed by:  VARSHA A
 Register Number: 212223220121
 */
@@ -32,62 +35,71 @@ Register Number: 212223220121
 ```
 import java.util.Scanner;
 
-interface Herbivore {}
-interface Carnivore {
-    void eat(Herbivore h);
+interface Shape {
+    void draw();
 }
 
-class Wildebeest implements Herbivore {}
-class Lion implements Carnivore {
-    public void eat(Herbivore h) {
-        System.out.println("Lion eats Wildebeest");
+class Circle implements Shape {
+    public void draw() {
+        System.out.println("Drawing Circle");
     }
 }
 
-class Buffalo implements Herbivore {}
-class Tiger implements Carnivore {
-    public void eat(Herbivore h) {
-        System.out.println("Tiger eats Buffalo");
+class Square implements Shape {
+    public void draw() {
+        System.out.println("Drawing Square");
     }
 }
 
-interface AnimalFactory {
-    Herbivore createHerbivore();
-    Carnivore createCarnivore();
+class Rectangle implements Shape {
+    public void draw() {
+        System.out.println("Drawing Rectangle");
+    }
 }
 
-class AfricaFactory implements AnimalFactory {
-    public Herbivore createHerbivore() { return new Wildebeest(); }
-    public Carnivore createCarnivore() { return new Lion(); }
-}
-
-class AsiaFactory implements AnimalFactory {
-    public Herbivore createHerbivore() { return new Buffalo(); }
-    public Carnivore createCarnivore() { return new Tiger(); }
+class ShapeFactory {
+    public Shape getShape(String shapeType) {
+        if (shapeType == null) {
+            return null;
+        }
+        switch (shapeType.toLowerCase()) {
+            case "circle":
+                return new Circle();
+            case "square":
+                return new Square();
+            case "rectangle":
+                return new Rectangle();
+            default:
+                return null;
+        }
+    }
 }
 
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        String region = sc.nextLine().toLowerCase();
-        AnimalFactory factory;
-
-        if (region.equals("africa")) factory = new AfricaFactory();
-        else if (region.equals("asia")) factory = new AsiaFactory();
-        else {
-            System.out.println("Invalid region");
-            return;
+        ShapeFactory factory = new ShapeFactory();
+        
+        while (true) {
+            String input = sc.nextLine().trim();
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+            
+            Shape shape = factory.getShape(input);
+            if (shape != null) {
+                shape.draw();
+            } else {
+                System.out.println("Invalid shape: " + input);
+            }
         }
-
-        Carnivore carn = factory.createCarnivore();
-        Herbivore herb = factory.createHerbivore();
-        carn.eat(herb);
+        sc.close();
     }
 }
 ```
 ## OUTPUT:
 
-![java43](https://github.com/ABINAYA-27-76/19AI307_ODD-25-26-/blob/8b4be1e27b6fb5da0aa68915801ab1e6c9c7174e/19AI307_JAVA(25-26)/Module-04/DAY-3/java43.png)
+![java44](https://github.com/ABINAYA-27-76/19AI307_ODD-25-26-/blob/b628a27d8352a971924fad5b0adffc7f5f8644ba/19AI307_JAVA(25-26)/Module-04/DAY-4/java44.png)
 
 ## RESULT:
-Thus, the program using Composition and Abstract Factory Pattern was successfully implemented and executed to create animal interactions for African and Asian regions.
+Thus, the Java program to simulate Shape Drawing using the Factory Design Pattern was successfully implemented and executed.
